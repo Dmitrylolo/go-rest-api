@@ -1,5 +1,6 @@
 # Go REST API Example
-===========
+
+## Overview
 
 This is a simple example of a REST API written in Go. It uses the Gin framework to handle HTTP requests and responses.
 
