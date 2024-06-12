@@ -25,6 +25,17 @@ func Run() error {
 	}
 
 	commentService := comment.NewService(db)
+
+	commentService.CreateComment(
+		context.Background(),
+		comment.Comment{
+			ID:     "9ae0a0d0-bd0c-4d1e-a3a4-d4e5f6a7b8c9",
+			Slug:   "test-slug",
+			Body:   "test-body",
+			Author: "test-author",
+		},
+	)
+
 	fmt.Println(commentService.GetComment(
 		context.Background(),
 		"9ae0a0d0-bd0c-4d1e-a3a4-d4e5f6a7b8c9",
