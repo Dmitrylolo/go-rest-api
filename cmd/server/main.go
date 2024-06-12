@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/Dmitrylolo/go-rest-api/internal/comment/db"
+	"github.com/Dmitrylolo/go-rest-api/internal/comment"
+	"github.com/Dmitrylolo/go-rest-api/internal/db"
 )
 
 // Run is going to be responsible
@@ -21,6 +23,12 @@ func Run() error {
 		fmt.Println("Failed to migrate database")
 		return err
 	}
+
+	commentService := comment.NewService(db)
+	fmt.Println(commentService.GetComment(
+		context.Background(),
+		"9ae0a0d0-bd0c-4d1e-a3a4-d4e5f6a7b8c9",
+	))
 
 	fmt.Println("Connected to database")
 	defer db.Client.Close()
