@@ -1,11 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/Dmitrylolo/go-rest-api/internal/comment"
 	"github.com/Dmitrylolo/go-rest-api/internal/db"
+	transportHttp "github.com/Dmitrylolo/go-rest-api/internal/transport/http"
 )
 
 // Run is going to be responsible
@@ -26,23 +26,11 @@ func Run() error {
 
 	commentService := comment.NewService(db)
 
-	commentService.CreateComment(
-		context.Background(),
-		comment.Comment{
-			ID:     "9ae0a0d0-bd0c-4d1e-a3a4-d4e5f6a7b8c9",
-			Slug:   "test-slug",
-			Body:   "test-body",
-			Author: "test-author",
-		},
-	)
-
-	fmt.Println(commentService.GetComment(
-		context.Background(),
-		"9ae0a0d0-bd0c-4d1e-a3a4-d4e5f6a7b8c9",
-	))
-
-	fmt.Println("Connected to database")
-	defer db.Client.Close()
+	httpHandler := transportHttp.NewHandler(commentService)
+	if err := httpHandler.Serve(); err != nil {
+		fmt.Println("Failed to start http server")
+		return err
+	}
 
 	return nil
 }
