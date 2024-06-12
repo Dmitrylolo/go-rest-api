@@ -2,8 +2,6 @@ package db
 
 import (
 	"fmt"
-	"io/fs"
-	"os"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
@@ -28,13 +26,6 @@ func (d *Database) Migrate() error {
 		fmt.Println("failed to create migrate instance: %w", err)
 		return err
 	}
-	content, err := fs.ReadFile(os.DirFS("migrations"), "0002_create_comments_table.up.sql")
-	if err != nil {
-		return fmt.Errorf("failed to read migration file: %w", err)
-	}
-	fmt.Printf("migrations path: %s\n", m)
-	fmt.Printf("migrations path: %s\n", content)
-	m.Force(1)
 	if err := m.Up(); err != nil {
 		if err != migrate.ErrNoChange {
 			return fmt.Errorf("failed to migrate database ErrNoChange: %w", err)
