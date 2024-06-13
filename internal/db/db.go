@@ -14,6 +14,7 @@ type Database struct {
 }
 
 func NewDatabase() (*Database, error) {
+
 	connectionString := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		os.Getenv("DB_HOST"),
@@ -23,7 +24,6 @@ func NewDatabase() (*Database, error) {
 		os.Getenv("DB_NAME"),
 		os.Getenv("SSL_MODE"),
 	)
-
 	fmt.Println(connectionString)
 
 	dbConnection, err := sqlx.Connect("postgres", connectionString)

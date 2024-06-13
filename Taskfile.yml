@@ -15,3 +15,16 @@ tasks:
   run:
     cmds:
       - docker-compose up --build
+
+  integration-test:
+    cmds: 
+      - docker-compose up -d db
+      - go test -v ./... -tags=integration
+    env: 
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_TABLE: postgres
+      DB_HOST: localhost
+      DB_PORT: '5432'
+      DB_NAME: postgres
+      SSL_MODE: disable
